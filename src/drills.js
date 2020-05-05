@@ -14,7 +14,10 @@ function searchByDate(daysAgo) {
 	knexInstance
 		.select('*')
 		.from('shopping_list')
-		.where('date_added', '>', 'daysAgo')
+		.where('date_added',
+					 '>',
+					 knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+		)
 		.then((result) => {
 			console.log(result);
 		});
@@ -33,10 +36,21 @@ function paginateProducts(page) {
 		});
 }
 
+function getTotalCost() {
+	knexInstance
+		.select('category')
+		.sum('price AS total_price')
+		.from('shopping_list')
+		.groupBy('category')
+		.then(result => {
+			console.log(result)
+		})
+}
+
 //searchByProduceName('bu');
 
 //paginateProducts(2);
 
-let time = Date.parse('2020-04-28T21:38:42.539Z');
-console.log(time);
-searchByDate('2020-04-28T21:38:42.539Z');
+//searchByDate(1);
+
+getTotalCost();
