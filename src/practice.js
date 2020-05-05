@@ -1,11 +1,11 @@
-'use strict';
-
-require('dotenv').config()
-const knex = require('knex')
+require('dotenv').config();
+const knex = require('knex');
 
 const knexInstance = knex({
-  client: 'pg',
-  connection: process.env.DB_URL
-})
+	client: 'pg',
+	connection: process.env.DB_URL,
+});
 
-console.log('knex and driver installed correctly')
+console.log('connection successful');
+
+module.exports = knexInstance;
